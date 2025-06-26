@@ -3,7 +3,7 @@ function login() {
   const pass = document.getElementById('password').value;
 
   const users = [
-    { username: 'suporte', password: 'qaz@123' },
+    { username: 'suporte', password: '#Jornada+2025' },
     { username: 'suporte.pev', password: '+Resultados@#' },
     { username: 'yuri', password: '1938' }
   ];
