@@ -3,14 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Links Rápidos - PIT STOP N1</title>
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3767/3767084.png" type="image/png">
+  <link rel="icon" href="SOFTCOMICON.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/script.js" defer></script>
 </head>
 <body>
+    <p id="login-counter" style="font-size: 14px; color: gray; display: none;"></p>
+
   <div id="login-section" class="login-section">
-    <div class="login-logo">Links Rápidos - PIT STOP N1</div>
+    <div class="login-logo">
+      <img src="SOFTCOMICON.png" alt="Logo da Empresa" class="logo-img">
+      <div>Links Rápidos - PIT STOP N1</div>
+    </div>
     <div class="login-box">
       <input type="text" id="username" placeholder="Usuário">
       <input type="password" id="password" placeholder="Senha">
@@ -18,9 +23,9 @@
     </div>
   </div>
 
-  <div id="content">
+   <div id="content">
     <header>
-      <img src="https://cdn-icons-png.flaticon.com/512/3767/3767084.png" alt="Logo Pasta Amarela">
+      <img src="SOFTCOMICON.png" alt="Logo da Empresa" class="logo-img">
       <h1>Links Rápidos - PIT STOP N1</h1>
     </header>
 
@@ -97,5 +102,10 @@
       </div>
     </div>
   </div>
+  <button id="logoutBtn" onclick="logout()" title="Sair">
+    <i class="fas fa-sign-out-alt"></i>
+  </button>
+
+
 </body>
 </html>
