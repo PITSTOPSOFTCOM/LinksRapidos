@@ -1,38 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Links Rápidos - PIT STOP N1</title>
-  <link rel="icon" href="SOFTCOMICON.png" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <title>Links Rápidos</title>
+  <link rel="icon" href="SOFTCOMICON.png" type="image/png" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
   <script src="js/script.js" defer></script>
 </head>
 <body>
-    <p id="login-counter" style="font-size: 14px; color: gray; display: none;"></p>
+  <p id="login-counter" style="font-size: 14px; color: gray; display: none;"></p>
 
-  <div id="login-section" class="login-section">
-    <div class="login-logo">
-      <img src="SOFTCOMICON.png" alt="Logo da Empresa" class="logo-img">
-      <div>Links Rápidos - PIT STOP N1</div>
+  <div id="login-section" class="login-section active" aria-label="Seção de login">
+    <div class="login-logo" role="banner">
+      <img
+        src="SOFTCOMICON.png"
+        alt="Logo da Empresa"
+        class="logo-img"
+        width="150"
+        height="auto"
+      />
+      <div>Links Rápidos</div>
     </div>
-    <div class="login-box">
-      <input type="text" id="username" placeholder="Usuário">
-      <input type="password" id="password" placeholder="Senha">
-      <button onclick="login()">Acessar</button>
+
+    <div class="login-box" role="form" aria-labelledby="login-title">
+      <h2 id="login-title" class="visually-hidden">Login</h2>
+
+      <input
+        type="text"
+        id="username"
+        placeholder="Usuário"
+        aria-label="Usuário"
+        autocomplete="username"
+        required
+      />
+      <input
+        type="password"
+        id="password"
+        placeholder="Senha"
+        aria-label="Senha"
+        autocomplete="current-password"
+        required
+      />
+      <button id="loginBtn" onclick="login()" aria-live="polite" aria-describedby="login-error">
+        Acessar
+      </button>
+      <div id="login-error" role="alert" aria-live="assertive" class="login-error" hidden></div>
     </div>
   </div>
 
-   <div id="content">
+  <div id="content" class="content" aria-label="Conteúdo principal" hidden>
+    <!-- Container fixo para os botões no topo direito -->
+    <div class="top-right-buttons">
+      <button id="themeToggleBtn" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button id="logoutBtn" onclick="logout()" title="Sair" aria-label="Sair">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </div>
+
     <header>
-      <img src="SOFTCOMICON.png" alt="Logo da Empresa" class="logo-img">
-      <h1>Links Rápidos - PIT STOP N1</h1>
+      <img
+        src="SOFTCOMICON.png"
+        alt="Logo da Empresa"
+        class="logo-img"
+        width="80"
+        height="auto"
+      />
+      <h1>Links Rápidos</h1>
     </header>
 
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Pesquisar..." onkeyup="filterLinks()">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Pesquisar..."
+        aria-label="Pesquisar links"
+        autocomplete="off"
+      />
     </div>
-
     <div class="link-container">
       <div class="link-box" data-descricao="Área do cliente para visualização de boletos e chamados.">
         <a href="http://softcom.areaclientes.com.br/autenticacao" target="_blank"><i class="fas fa-address-card"></i>Área Do Cliente</a>
@@ -102,10 +152,11 @@
       </div>
     </div>
   </div>
-  <button id="logoutBtn" onclick="logout()" title="Sair">
-    <i class="fas fa-sign-out-alt"></i>
-  </button>
 
+  <div id="no-results" class="no-results" hidden>Nenhum resultado encontrado.</div>
 
+  <footer class="footer" role="contentinfo">
+    <p>© 2025 Softcom. Todos os direitos reservados.</p>
+  </footer>
 </body>
 </html>

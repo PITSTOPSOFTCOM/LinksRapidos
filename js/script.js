@@ -1,6 +1,16 @@
 function login() {
-  const user = document.getElementById('username').value;
-  const pass = document.getElementById('password').value;
+  const userInput = document.getElementById('username');
+  const passInput = document.getElementById('password');
+  const errorDiv = document.getElementById('login-error');
+  const loginBtn = document.getElementById('loginBtn');
+
+  const user = userInput.value.trim();
+  const pass = passInput.value;
+
+  // Desabilita botão pra evitar múltiplos cliques
+  loginBtn.disabled = true;
+  errorDiv.hidden = true;
+  errorDiv.textContent = '';
 
   const users = [
     { username: 'suporte', password: '#Jornada+2025', mostrarContador: false },
@@ -8,78 +18,94 @@ function login() {
     { username: 'yuri', password: '1938', mostrarContador: true }
   ];
 
-  const usuario = users.find(u => u.username === user && u.password === pass);
+  // Simula delay para efeito melhor (pode ser removido)
+  setTimeout(() => {
+    const usuario = users.find(u => u.username === user && u.password === pass);
 
-  if (usuario) {
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-
-    if (usuario.mostrarContador) {
-      let count = localStorage.getItem('loginCount');
-      count = count ? parseInt(count) + 1 : 1;
-      localStorage.setItem('loginCount', count);
-      document.getElementById('login-counter').innerText = `Total de logins neste navegador: ${count}`;
-      document.getElementById('login-counter').style.display = 'block';
+    if (usuario) {
+      localStorage.setItem('usuario', user);
+      localStorage.setItem('contadorVisivel', usuario.mostrarContador);
+      document.getElementById('login-section').classList.remove('active');
+      document.getElementById('content').classList.add('active');
+      document.getElementById('logoutBtn').style.display = 'flex'; // mostra botão só aqui
+      document.getElementById('login-counter').style.display = usuario.mostrarContador ? 'block' : 'none';
+      // Limpa inputs e erros
+      userInput.value = '';
+      passInput.value = '';
+      errorDiv.hidden = true;
+    } else {
+      errorDiv.textContent = 'Usuário ou senha incorretos';
+      errorDiv.hidden = false;
+      passInput.value = '';
+      passInput.focus();
     }
-
-    fetch('https://script.google.com/macros/s/AKfycbzfpnFhX9utlkAJXmDX6AEuWzhreQPDs9Q0sJd7QuP6YjDh5GjMmOVV2TTYd0yMMkgy/exec', {
-      method: 'POST',
-      body: new URLSearchParams({ usuario: usuario.username })
-    });
-
-    document.getElementById('login-section').classList.remove('active');
-    document.getElementById('content').classList.add('active');
-    document.getElementById('logoutBtn').style.display = 'block';
-  } else {
-    alert('Usuário ou senha incorretos.');
-  }
+    loginBtn.disabled = false;
+  }, 300);
 }
 
 function logout() {
-  localStorage.removeItem('usuarioLogado');
-  document.getElementById('content').classList.remove('active');
+  localStorage.removeItem('usuario');
+  localStorage.removeItem('contadorVisivel');
   document.getElementById('login-section').classList.add('active');
-  document.getElementById('username').value = '';
-  document.getElementById('password').value = '';
-  document.getElementById('logoutBtn').style.display = 'none';
+  document.getElementById('content').classList.remove('active');
+  document.getElementById('logoutBtn').style.display = 'none'; // esconde botão aqui
+  document.getElementById('login-counter').style.display = 'none';
+}
+
+// Função debounce para melhorar performance na pesquisa
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
 }
 
 function filterLinks() {
   const input = document.getElementById('searchInput').value.toLowerCase();
   const boxes = document.querySelectorAll('.link-box');
+  let anyVisible = false;
+
   boxes.forEach(box => {
-    const text = box.textContent.toLowerCase();
-    box.style.display = text.includes(input) ? 'flex' : 'none';
+    const text = box.innerText.toLowerCase();
+    if (text.includes(input)) {
+      box.style.display = '';
+      anyVisible = true;
+    } else {
+      box.style.display = 'none';
+    }
   });
+
+  const noResults = document.getElementById('no-results');
+  if (!anyVisible) {
+    noResults.hidden = false;
+  } else {
+    noResults.hidden = true;
+  }
 }
 
-window.onload = function () {
-  const user = JSON.parse(localStorage.getItem('usuarioLogado'));
+// Alterna tema claro/escuro e salva no localStorage
+function toggleTheme() {
+  const body = document.body;
+  body.classList.toggle('dark-theme');
 
-  if (user) {
-    document.getElementById('login-section').classList.remove('active');
-    document.getElementById('content').classList.add('active');
-    document.getElementById('logoutBtn').style.display = 'block';
+  const isDark = body.classList.contains('dark-theme');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
 
-    if (user.mostrarContador) {
-      const count = localStorage.getItem('loginCount') || 0;
-      document.getElementById('login-counter').innerText = `Total de logins neste navegador: ${count}`;
-      document.getElementById('login-counter').style.display = 'block';
-    }
+  // Troca ícone do botão
+  const icon = document.querySelector('#themeToggleBtn i');
+  if (isDark) {
+    icon.classList.remove('fa-moon');
+    icon.classList.add('fa-sun');
   } else {
-    document.getElementById('login-section').classList.add('active');
+    icon.classList.remove('fa-sun');
+    icon.classList.add('fa-moon');
   }
+}
 
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      const loginBox = document.getElementById('login-section');
-      if (loginBox.classList.contains('active')) {
-        login();
-      }
-    }
-  });
-
+document.addEventListener('DOMContentLoaded', () => {
+  // Tooltip criação
   document.querySelectorAll('.link-box').forEach(box => {
-    const link = box.querySelector('a');
     const descricao = box.getAttribute('data-descricao');
     if (descricao) {
       const tooltip = document.createElement('div');
@@ -87,8 +113,44 @@ window.onload = function () {
       tooltip.textContent = descricao;
       box.appendChild(tooltip);
     }
-    box.addEventListener('click', () => {
-      if (link) window.open(link.href, '_blank');
+  });
+
+  // Check login
+  const user = localStorage.getItem('usuario');
+  const contadorVisivel = localStorage.getItem('contadorVisivel') === 'true';
+
+  if (user) {
+    document.getElementById('login-section').classList.remove('active');
+    document.getElementById('content').classList.add('active');
+    document.getElementById('logoutBtn').style.display = 'flex'; // mostra só se logado
+    document.getElementById('login-counter').style.display = contadorVisivel ? 'block' : 'none';
+  } else {
+    document.getElementById('login-section').classList.add('active');
+    document.getElementById('logoutBtn').style.display = 'none'; // esconde botão na tela login
+  }
+
+  // Eventos Enter ativa login
+  ['username', 'password'].forEach(id => {
+    document.getElementById(id).addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') login();
     });
   });
-}
+
+  // Pesquisa com debounce
+  document
+    .getElementById('searchInput')
+    .addEventListener('input', debounce(filterLinks, 300));
+
+  // Tema toggle
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  themeToggleBtn.addEventListener('click', toggleTheme);
+
+  // Aplica tema salvo
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+    const icon = document.querySelector('#themeToggleBtn i');
+    icon.classList.remove('fa-moon');
+    icon.classList.add('fa-sun');
+  }
+});

@@ -1,103 +1,276 @@
+/* Reset e básico */
 body {
   font-family: Arial, sans-serif;
-  background: #f3f3f3;
+  background: var(--background);
   padding: 40px;
   text-align: center;
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  --background: #f3f3f3;
+  --text-color: #000;
+  --primary-color: #f7a843;
+  --primary-color-hover: #e5942f;
+  --border-color: #ffd700;
+  --input-bg: #fff;
+  --input-border: #ccc;
+  --input-focus-border: #f7a843;
+  --error-color: #e74c3c;
+  --box-bg: #fff;
+  --box-hover-bg: #fff8cc;
+  --footer-bg: #f0f0f0;
+  --footer-border: #ddd;
 }
-#login-section, #content {
+
+/* Tema escuro */
+body.dark-theme {
+  --background: #121212;
+  --text-color: #f5f5f5;
+  --primary-color: #f7a843;
+  --primary-color-hover: #e5942f;
+  --border-color: #ffd700;
+  --input-bg: #222;
+  --input-border: #555;
+  --input-focus-border: #f7a843;
+  --error-color: #ff6b6b;
+  --box-bg: #1e1e1e;
+  --box-hover-bg: #3a3a00;
+  --footer-bg: #1a1a1a;
+  --footer-border: #444;
+}
+
+/* Visually hidden para acessibilidade */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Sections */
+#login-section,
+#content {
   display: none;
+  max-width: 400px;
+  margin: auto;
 }
-#login-section.active, #content.active {
+
+#login-section.active,
+#content.active {
   display: block;
 }
+
+/* Login box */
 .login-box {
-  background: #fff;
+  background: var(--box-bg);
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-width: 350px;
   margin: auto;
+  transition: background-color 0.3s ease;
 }
+
 .login-box input {
   width: 100%;
   margin-bottom: 15px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);
   border-radius: 5px;
   font-size: 14px;
+  box-sizing: border-box;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
+
+.login-box input:focus {
+  outline: none;
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 8px var(--input-focus-border);
+}
+
 .login-box button {
   width: 100%;
   padding: 10px;
-  background-color: #f7a843;
+  background-color: var(--primary-color);
   border: none;
   border-radius: 5px;
   font-weight: bold;
   font-size: 15px;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.login-box button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.login-box button:hover:not(:disabled) {
+  background-color: var(--primary-color-hover);
+}
+
+/* Mensagem de erro */
+.login-error {
+  margin-top: 10px;
+  color: var(--error-color);
+  font-weight: bold;
+  min-height: 1.2em;
+  transition: opacity 0.3s ease;
+}
+
+/* Logo */
 .login-logo {
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
   font-family: Arial Black, sans-serif;
   font-size: 26px;
-  color: #000;
+  color: var(--text-color);
 }
+
 header {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  position: relative;
 }
+
 header img {
   width: 80px;
   margin-bottom: 10px;
 }
+
 h1 {
-  color: #000000;
+  color: var(--text-color);
+  margin: 0;
 }
+
+/* Container fixo com botões no topo direito */
+.top-right-buttons {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.top-right-buttons button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.top-right-buttons button:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.top-right-buttons button i {
+  pointer-events: none;
+}
+
+/* Search box */
 .search-box {
   margin: 20px auto;
   max-width: 600px;
 }
+
 .search-box input {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  border: 2px solid #ffd700;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+/* Link container - ajustado para 4 colunas */
 .link-container {
   margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px; /* Aumentado de 20px para 40px */
-  max-width: 1000px;
+  grid-template-columns: repeat(4, 200px); /* 4 colunas fixas com 200px */
+  gap: 40px;
+  max-width: 920px; /* 4*200 + 3*40 = 920 */
   margin-left: auto;
-  margin-right: auto;
+  margin-right: auto; /* centraliza */
+  justify-content: center; /* centraliza o grid dentro do container */
+  min-height: 150px;
+  transition: all 0.3s ease;
 }
 
+/* Responsividade */
+@media (max-width: 1024px) {
+  .link-container {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .link-container {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 460px;
+  }
+}
+
+@media (max-width: 480px) {
+  .link-container {
+    grid-template-columns: 1fr;
+    max-width: 250px;
+  }
+}
+
+/* Link box */
 .link-box {
-  background-color: #fff;
+  background-color: var(--box-bg);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  border: 2px solid #ffd700;
+  border: 2px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
   height: 120px;
   position: relative;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.link-box:hover {
-  background-color: #fff8cc;
+
+.link-box:hover,
+.link-box:focus-within {
+  background-color: var(--box-hover-bg);
   transform: translateY(-3px);
+  outline: none;
 }
+
 .link-box a {
   text-decoration: none;
-  color: #000000;
+  color: var(--text-color);
   font-weight: bold;
   font-size: 16px;
   display: flex;
@@ -108,6 +281,17 @@ h1 {
   width: 100%;
   height: 100%;
 }
+
+.link-box a:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.link-box i {
+  font-size: 26px;
+}
+
+/* Tooltip */
 .tooltip {
   position: absolute;
   top: 105%;
@@ -124,52 +308,57 @@ h1 {
   transition: opacity 0.2s ease;
   pointer-events: none;
 }
-.link-box:hover .tooltip {
+
+.link-box:hover .tooltip,
+.link-box:focus-within .tooltip {
   opacity: 1;
 }
 
-#logoutBtn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #f7a843; /* cor de destaque do projeto */
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  transition: background-color 0.3s ease;
-}
-
-#logoutBtn i {
+/* Mensagem "Nenhum resultado" */
+.no-results {
+  grid-column: 1 / -1;
+  font-weight: bold;
+  color: var(--error-color);
   font-size: 18px;
+  text-align: center;
+  padding: 20px 0;
 }
 
-/* Realce ao passar o mouse */
-#logoutBtn:hover {
-  background-color: #e5942f; /* tom mais escuro para hover */
-}
-
+/* Logo */
 .logo-img {
   height: auto;
-  width: 150px; /* Aumente aqui conforme desejar */
+  width: 150px;
   max-width: 90%;
   margin-bottom: 10px;
   object-fit: contain;
   display: block;
 }
 
+/* Footer */
+.footer {
+  margin-top: 60px;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-color);
+  background-color: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-.login-logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+/* Responsividade geral */
+@media (max-width: 600px) {
+  body {
+    padding: 20px 15px;
+  }
+
+  .login-box,
+  #content {
+    max-width: 100%;
+  }
+
+  .link-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+  }
 }
