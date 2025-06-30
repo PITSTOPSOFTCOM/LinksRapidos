@@ -2,158 +2,214 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Links Rápidos</title>
   <link rel="icon" href="SOFTCOMICON.png" type="image/png" />
   <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
   />
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/script.js" defer></script>
+  <style>
+    /* Estilo mínimo para garantir rodapé no final */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
 </head>
 <body>
-  <p id="login-counter" style="font-size: 14px; color: gray; display: none;"></p>
+  <div class="main-wrapper">
+    <p
+      id="login-counter"
+      style="font-size: 14px; color: gray; display: none;"
+      aria-live="polite"
+    ></p>
 
-  <div id="login-section" class="login-section active" aria-label="Seção de login">
-    <div class="login-logo" role="banner">
-      <img
-        src="SOFTCOMICON.png"
-        alt="Logo da Empresa"
-        class="logo-img"
-        width="150"
-        height="auto"
-      />
-      <div>Links Rápidos</div>
-    </div>
+    <!-- Login Section -->
+    <section
+      id="login-section"
+      class="login-section active"
+      aria-label="Seção de login"
+    >
+      <div class="login-logo" role="banner">
+        <img
+          src="SOFTCOMICON.png"
+          alt="Logo da Empresa"
+          class="logo-img"
+          width="150"
+          height="auto"
+        />
+        <div>Links Rápidos</div>
+      </div>
 
-    <div class="login-box" role="form" aria-labelledby="login-title">
-      <h2 id="login-title" class="visually-hidden">Login</h2>
+      <form
+        class="login-box"
+        role="form"
+        aria-labelledby="login-title"
+        onsubmit="event.preventDefault(); login();"
+      >
+        <h2 id="login-title" class="visually-hidden">Login</h2>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Usuário"
+          aria-label="Usuário"
+          autocomplete="username"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Senha"
+          aria-label="Senha"
+          autocomplete="current-password"
+          required
+        />
+        <button
+          type="submit"
+          id="loginBtn"
+          aria-describedby="login-error"
+        >
+          Acessar
+        </button>
+        <div id="login-error" role="alert" class="login-error" hidden></div>
+      </form>
+    </section>
 
-      <input
-        type="text"
-        id="username"
-        placeholder="Usuário"
-        aria-label="Usuário"
-        autocomplete="username"
-        required
-      />
-      <input
-        type="password"
-        id="password"
-        placeholder="Senha"
-        aria-label="Senha"
-        autocomplete="current-password"
-        required
-      />
-      <button id="loginBtn" onclick="login()" aria-live="polite" aria-describedby="login-error">
-        Acessar
-      </button>
-      <div id="login-error" role="alert" aria-live="assertive" class="login-error" hidden></div>
+    <!-- Conteúdo Principal -->
+    <main id="content" class="content" aria-label="Conteúdo principal" hidden>
+      <div class="top-right-buttons" role="group" aria-label="Botões de ações rápidas">
+        <button
+          id="themeToggleBtn"
+          aria-label="Alternar tema"
+          title="Alternar tema"
+          type="button"
+        >
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </button>
+        <button
+          id="logoutBtn"
+          onclick="logout()"
+          title="Sair"
+          aria-label="Sair"
+          type="button"
+        >
+          <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <header>
+        <img
+          src="SOFTCOMICON.png"
+          alt="Logo da Empresa"
+          class="logo-img"
+          width="80"
+          height="auto"
+        />
+        <h1>Links Rápidos</h1>
+      </header>
+
+      <div class="search-box">
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Pesquisar..."
+          aria-label="Pesquisar links"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="link-container">
+        <div class="link-box" data-descricao="Área do cliente para visualização de boletos e chamados.">
+          <a href="http://softcom.areaclientes.com.br/autenticacao" target="_blank"><i class="fas fa-address-card"></i>Área Do Cliente</a>
+        </div>
+        <div class="link-box" data-descricao="Área para preenchimento do checklist">
+          <a href="http://177.43.232.5:25123/area-partner/public/autenticacao" target="_blank"><i class="fas fa-clipboard-list"></i>Área Partner</a>
+        </div>
+        <div class="link-box" data-descricao="Portal destinado a contadores vinculados aos clientes.">
+          <a href="https://areacontador.softcomsistemas.com.br/auth/login" target="_blank"><i class="fas fa-user-tie"></i>Área Do Contador</a>
+        </div>
+        <div class="link-box" data-descricao="Atendimentos via chat.">
+          <a href="https://softcom-tecnologia.desk.blip.ai/" target="_blank"><i class="fas fa-comments"></i>Blip</a>
+        </div>
+        <div class="link-box" data-descricao="Consultar NFe e Download do XML">
+          <a href="https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&tipoConteudo=7PhJ+gAVw2g=" target="_blank"><i class="fas fa-file-invoice"></i>Consultar NF-e - Portal da Nota Fiscal Eletrônica</a>
+        </div>
+        <div class="link-box" data-descricao="Converter XML para PDF">
+          <a href="https://www.fsist.com.br" target="_blank"><i class="fas fa-exchange-alt"></i>Fsist</a>
+        </div>
+        <div class="link-box" data-descricao="Base De Conhecimento">
+          <a href="http://177.43.232.5:25123/helptools2/public" target="_blank"><i class="fas fa-book-open"></i>Helptools</a>
+        </div>
+        <div class="link-box" data-descricao="FAQ Para Liberação Do Novo Collector">
+          <a href="http://177.43.232.5:25123/helptools2/public/core/promover/detalhe/id/7521" target="_blank"><i class="fas fa-unlock-alt"></i>Liberação Collector - Novo(FAQ)</a>
+        </div>
+        <div class="link-box" data-descricao="Site Para Liberação Do Collector Antigo">
+          <a href="http://softcomcollector.smobileweb.com.br/" target="_blank"><i class="fas fa-archive"></i>Liberação Collector (Antigo)</a>
+        </div>
+        <div class="link-box" data-descricao="FAQ Para Conhecimento do Manuel Operacional">
+          <a href="http://177.43.232.5:25123/helptools2/public/core/promover/detalhe/id/7347" target="_blank"><i class="fas fa-calendar-alt"></i>Manual Operacional - Agenda</a>
+        </div>
+        <div class="link-box" data-descricao="FAQ Para Conhecimento do Manuel Operacional">
+          <a href="http://177.43.232.5:25123/helptools2/public/core/promover/detalhe/id/7524" target="_blank"><i class="fas fa-cogs"></i>Manual Operacional - Processos do Setor</a>
+        </div>
+        <div class="link-box" data-descricao="FAQ Para Conhecimento do Manuel Operacional">
+          <a href="http://177.43.232.5:25123/helptools2/public/core/promover/detalhe/id/7463" target="_blank"><i class="fas fa-headphones-alt"></i>Manual Operacional Pit Stop - Registro de atendimento</a>
+        </div>
+        <div class="link-box" data-descricao="Monitoramento SEFAZ Por Região">
+          <a href="https://www.nfe.fazenda.gov.br/portal/disponibilidade.aspx?versao=0.00&tipoConteudo=P2c98tUpxrI=" target="_blank"><i class="fas fa-wifi"></i>Monitor SEFAZ</a>
+        </div>
+        <div class="link-box" data-descricao="Portal Estratégico para agendamento de horário marcado">
+          <a href="https://www.softcomtecnologia.com" target="_blank"><i class="fas fa-map-marked-alt"></i>Portal Estratégico</a>
+        </div>
+        <div class="link-box" data-descricao="Portal Do Ponto Eletrônico">
+          <a href="https://www.rhid.com.br/v2/#/login" target="_blank"><i class="fas fa-user-clock"></i>Portal Control ID</a>
+        </div>
+        <div class="link-box" data-descricao="Portal De Serviços Softcom">
+          <a href="https://portal.softcomservices.com" target="_blank"><i class="fas fa-concierge-bell"></i>Portal Softcom Services</a>
+        </div>
+        <div class="link-box" data-descricao="Mapa Mental Service Desk">
+          <a href="https://www.mindmeister.com/app/map/3705430695" target="_blank"><i class="fas fa-project-diagram"></i>Service Desk Flow (Mindmap)</a>
+        </div>
+        <div class="link-box" data-descricao="Acesso Ao Portal Sitef">
+          <a href="https://sitefexpress.softwareexpress.com.br/sitefweb" target="_blank"><i class="fas fa-credit-card"></i>Sitef Cliente</a>
+        </div>
+        <div class="link-box" data-descricao="Sitef Autenticação (Interno)">
+          <a href="http://10.0.150.172/" target="_blank"><i class="fas fa-key"></i>Sitef Autenticação</a>
+        </div>
+        <div class="link-box" data-descricao="Portal Softcompay">
+          <a href="https://softcompay.com/login" target="_blank"><i class="fas fa-coins"></i>Softcompay</a>
+        </div>
+        <div class="link-box" data-descricao="Sistema Web para testes e treinamento">
+          <a href="https://qualidade.softcomshop.com.br/auth/login" target="_blank"><i class="fas fa-vials"></i>Softcomshop Qualidade (Teste/Validações)</a>
+        </div>
+        <div class="link-box" data-descricao="Site para validar XML">
+          <a href="https://validador.nfe.tecnospeed.com.br/" target="_blank"><i class="fas fa-file-code"></i>Validador XML</a>
+        </div>
+      </div>
+    </main>
+
+    <div id="no-results" class="no-results" hidden role="alert" aria-live="assertive">
+      Nenhum resultado encontrado.
     </div>
   </div>
-
-  <div id="content" class="content" aria-label="Conteúdo principal" hidden>
-    <!-- Container fixo para os botões no topo direito -->
-    <div class="top-right-buttons">
-      <button id="themeToggleBtn" aria-label="Alternar tema claro e escuro" title="Alternar tema">
-        <i class="fas fa-moon"></i>
-      </button>
-      <button id="logoutBtn" onclick="logout()" title="Sair" aria-label="Sair">
-        <i class="fas fa-sign-out-alt"></i>
-      </button>
-    </div>
-
-    <header>
-      <img
-        src="SOFTCOMICON.png"
-        alt="Logo da Empresa"
-        class="logo-img"
-        width="80"
-        height="auto"
-      />
-      <h1>Links Rápidos</h1>
-    </header>
-
-    <div class="search-box">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Pesquisar..."
-        aria-label="Pesquisar links"
-        autocomplete="off"
-      />
-    </div>
-    <div class="link-container">
-      <div class="link-box" data-descricao="Área do cliente para visualização de boletos e chamados.">
-        <a href="http://softcom.areaclientes.com.br/autenticacao" target="_blank"><i class="fas fa-address-card"></i>Área Do Cliente</a>
-      </div>
-      <div class="link-box" data-descricao="Área para preenchimento do checklist">
-        <a href="http://177.43.232.5:25123/area-partner/public/autenticacao" target="_blank"><i class="fas fa-clipboard-list"></i>Área Partner</a>
-      </div>
-      <div class="link-box" data-descricao="Portal destinado a contadores vinculados aos clientes.">
-        <a href="https://areacontador.softcomsistemas.com.br/auth/login" target="_blank"><i class="fas fa-user-tie"></i>Área Do Contador</a>
-      </div>
-      <div class="link-box" data-descricao="Atendimentos via chat.">
-        <a href="https://softcom-tecnologia.desk.blip.ai/" target="_blank"><i class="fas fa-comments"></i>Blip</a>
-      </div>
-      <div class="link-box" data-descricao="Consultar NFe e Download do XML">
-        <a href="https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&tipoConteudo=7PhJ+gAVw2g=" target="_blank"><i class="fas fa-file-invoice"></i>Consultar NF-e - Portal da Nota Fiscal Eletrônica</a>
-      </div>
-      <div class="link-box" data-descricao="Converter XML para PDF">
-        <a href="https://www.fsist.com.br" target="_blank"><i class="fas fa-exchange-alt"></i>Fsist</a>
-      </div>
-      <div class="link-box" data-descricao="Base De Conhecimento">
-        <a href="http://177.43.232.5:25123/helptools2/public" target="_blank"><i class="fas fa-book-open"></i>Helptools</a>
-      </div>
-      <div class="link-box" data-descricao="FAQ Para Liberação Do Novo Collector">
-        <a href="http://177.43.232.5:25123/helptools2/public/core/promover/detalhe/id/7521" target="_blank"><i class="fas fa-unlock-alt"></i>Liberação Collector - Novo(FAQ)</a>
-      </div>
-      <div class="link-box" data-descricao="Site Para Liberação Do Collector Antigo">
-        <a href="http://softcomcollector.smobileweb.com.br/" target="_blank"><i class="fas fa-archive"></i>Liberação Collector (Antigo)</a>
-      </div>
-      <div class="link-box" data-descricao="FAQ Para Conhecimento do Manuel Operacional">
-        <a href="http://177.43.232.5:25123/helptools2/public/core/promover/detalhe/id/7347" target="_blank"><i class="fas fa-calendar-alt"></i>Manual Operacional - Agenda</a>
-      </div>
-      <div class="link-box" data-descricao="FAQ Para Conhecimento do Manuel Operacional">
-        <a href="http://177.43.232.5:25123/helptools2/public/core/promover/detalhe/id/7524" target="_blank"><i class="fas fa-cogs"></i>Manual Operacional - Processos do Setor</a>
-      </div>
-      <div class="link-box" data-descricao="FAQ Para Conhecimento do Manuel Operacional">
-        <a href="http://177.43.232.5:25123/helptools2/public/core/promover/detalhe/id/7463" target="_blank"><i class="fas fa-headphones-alt"></i>Manual Operacional Pit Stop - Registro de atendimento</a>
-      </div>
-      <div class="link-box" data-descricao="Monitoramento SEFAZ Por Região">
-        <a href="https://www.nfe.fazenda.gov.br/portal/disponibilidade.aspx?versao=0.00&tipoConteudo=P2c98tUpxrI=" target="_blank"><i class="fas fa-wifi"></i>Monitor SEFAZ</a>
-      </div>
-      <div class="link-box" data-descricao="Portal Estratégico para agendamento de horário marcado">
-        <a href="https://www.softcomtecnologia.com" target="_blank"><i class="fas fa-map-marked-alt"></i>Portal Estratégico</a>
-      </div>
-      <div class="link-box" data-descricao="Portal Do Ponto Eletrônico">
-        <a href="https://www.rhid.com.br/v2/#/login" target="_blank"><i class="fas fa-user-clock"></i>Portal Control ID</a>
-      </div>
-      <div class="link-box" data-descricao="Portal De Serviços Softcom">
-        <a href="https://portal.softcomservices.com" target="_blank"><i class="fas fa-concierge-bell"></i>Portal Softcom Services</a>
-      </div>
-      <div class="link-box" data-descricao="Mapa Mental Service Desk">
-        <a href="https://www.mindmeister.com/app/map/3705430695" target="_blank"><i class="fas fa-project-diagram"></i>Service Desk Flow (Mindmap)</a>
-      </div>
-      <div class="link-box" data-descricao="Acesso Ao Portal Sitef">
-        <a href="https://sitefexpress.softwareexpress.com.br/sitefweb" target="_blank"><i class="fas fa-credit-card"></i>Sitef Cliente</a>
-      </div>
-      <div class="link-box" data-descricao="Sitef Autenticação (Interno)">
-        <a href="http://10.0.150.172/" target="_blank"><i class="fas fa-key"></i>Sitef Autenticação</a>
-      </div>
-      <div class="link-box" data-descricao="Portal Softcompay">
-        <a href="https://softcompay.com/login" target="_blank"><i class="fas fa-coins"></i>Softcompay</a>
-      </div>
-      <div class="link-box" data-descricao="Sistema Web para testes e treinamento">
-        <a href="https://qualidade.softcomshop.com.br/auth/login" target="_blank"><i class="fas fa-vials"></i>Softcomshop Qualidade (Teste/Validações)</a>
-      </div>
-      <div class="link-box" data-descricao="Site para validar XML">
-        <a href="https://validador.nfe.tecnospeed.com.br/" target="_blank"><i class="fas fa-file-code"></i>Validador XML</a>
-      </div>
-    </div>
-  </div>
-
-  <div id="no-results" class="no-results" hidden>Nenhum resultado encontrado.</div>
 
   <footer class="footer" role="contentinfo">
     <p>© 2025 Softcom. Todos os direitos reservados.</p>

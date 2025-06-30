@@ -1,11 +1,5 @@
-/* Reset e básico */
-body {
-  font-family: Arial, sans-serif;
-  background: var(--background);
-  padding: 40px;
-  text-align: center;
-  color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Variáveis globais */
+:root {
   --background: #f3f3f3;
   --text-color: #000;
   --primary-color: #f7a843;
@@ -19,6 +13,32 @@ body {
   --box-hover-bg: #fff8cc;
   --footer-bg: #f0f0f0;
   --footer-border: #ddd;
+}
+
+/* Reset e básico */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--background);
+  color: var(--text-color);
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 /* Tema escuro */
@@ -48,12 +68,12 @@ body.dark-theme {
   white-space: nowrap;
 }
 
-/* Sections */
+/* Seções */
 #login-section,
 #content {
   display: none;
-  max-width: 400px;
-  margin: auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
 #login-section.active,
@@ -134,6 +154,7 @@ body.dark-theme {
   color: var(--text-color);
 }
 
+/* Header */
 header {
   display: flex;
   flex-direction: column;
@@ -152,7 +173,7 @@ h1 {
   margin: 0;
 }
 
-/* Container fixo com botões no topo direito */
+/* Botões no topo direito */
 .top-right-buttons {
   position: fixed;
   top: 15px;
@@ -186,7 +207,7 @@ h1 {
   pointer-events: none;
 }
 
-/* Search box */
+/* Caixa de pesquisa */
 .search-box {
   margin: 20px auto;
   max-width: 600px;
@@ -209,19 +230,32 @@ h1 {
   box-shadow: 0 0 8px var(--primary-color);
 }
 
-/* Link container - ajustado para 4 colunas */
+/* Grid de links */
+/* Container do grid - fixo 4 colunas, centralizado */
+/* Container padrão: grid fixo 4 colunas */
+/* Container padrão - 4 colunas fixas que ocupam 100% */
 .link-container {
-  margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(4, 200px); /* 4 colunas fixas com 200px */
-  gap: 40px;
-  max-width: 920px; /* 4*200 + 3*40 = 920 */
-  margin-left: auto;
-  margin-right: auto; /* centraliza */
-  justify-content: center; /* centraliza o grid dentro do container */
-  min-height: 150px;
-  transition: all 0.3s ease;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  max-width: 920px;
+  margin: 30px auto 0;
+  width: 100%; /* Ocupa largura total */
+  box-sizing: border-box;
 }
+
+/* Quando pesquisa ativa - grid ajusta e centraliza */
+.link-container.search-result {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 200px);
+  gap: 30px;
+  max-width: 920px;
+  margin: 30px auto 0;
+  width: auto;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 
 /* Responsividade */
 @media (max-width: 1024px) {
@@ -245,7 +279,7 @@ h1 {
   }
 }
 
-/* Link box */
+/* Link box - tamanho fixo, igual para todas */
 .link-box {
   background-color: var(--box-bg);
   padding: 20px;
@@ -253,12 +287,14 @@ h1 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 2px solid var(--border-color);
   display: flex;
+  flex-direction: column; /* para alinhar texto e ícones verticalmente */
   align-items: center;
   justify-content: center;
-  height: 120px;
-  position: relative;
+  height: 140px; /* altura fixa para todas */
+  width: 100%; /* para preencher a célula do grid */
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  box-sizing: border-box;
 }
 
 .link-box:hover,
@@ -268,6 +304,7 @@ h1 {
   outline: none;
 }
 
+/* Link interno */
 .link-box a {
   text-decoration: none;
   color: var(--text-color);
@@ -280,15 +317,7 @@ h1 {
   gap: 10px;
   width: 100%;
   height: 100%;
-}
-
-.link-box a:focus {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-.link-box i {
-  font-size: 26px;
+  text-align: center;
 }
 
 /* Tooltip */
@@ -314,7 +343,12 @@ h1 {
   opacity: 1;
 }
 
-/* Mensagem "Nenhum resultado" */
+/* Ocultar boxes filtradas */
+.link-box.hidden {
+  display: none !important;
+}
+
+/* Nenhum resultado */
 .no-results {
   grid-column: 1 / -1;
   font-weight: bold;
@@ -334,9 +368,9 @@ h1 {
   display: block;
 }
 
-/* Footer */
+/* Rodapé */
 .footer {
-  margin-top: 60px;
+  margin-top: auto;
   padding: 20px 0;
   text-align: center;
   font-size: 14px;
@@ -348,7 +382,7 @@ h1 {
 
 /* Responsividade geral */
 @media (max-width: 600px) {
-  body {
+  .main-wrapper {
     padding: 20px 15px;
   }
 
@@ -361,4 +395,14 @@ h1 {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
   }
+
+  .link-container.single-item {
+  display: flex;
+  justify-content: center;
+}
+.link-container.single-item .link-box {
+  margin: 0 auto;
+}
+
+
 }
